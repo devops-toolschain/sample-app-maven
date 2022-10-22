@@ -3,7 +3,6 @@ locals {
   vm_name = "spring-app-vm"
   vm_size = "Standard_D2s_v3"
 
-
   nsg_rules_range = {
     allow_ssh = {
       name                       = "allow-ssh"

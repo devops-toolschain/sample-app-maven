@@ -52,7 +52,7 @@ module "pub_publicip" {
     tags                  = var.tags
 }
 
-module "vm_nic" {
+module "web_vm_nic" {
   source                        = "github.com/devops-toolschain/azure-terraform-modules.git//az-vm-nic"
   virtual_machine_name          = local.vm_name
   resource_group_name           = module.pub_rg.name
@@ -67,7 +67,7 @@ module "vm_nic" {
 }
 
 # # Create Virtual Machine
-module "vm" {
+module "web_vm" {
   source = "github.com/devops-toolschain/azure-terraform-modules.git//az-vm-linux"
 
   # Common configuration
@@ -79,7 +79,7 @@ module "vm" {
   ssh_public_key = file("ssh_keys/id_pub_project.pub")
 
   # NIC configurtion
-  network_interface_ids = [module.vm_nic.id]
+  network_interface_ids = [module.web_vm_nic.id]
 
   # VM configuration
   vm_size                = local.vm_size
@@ -88,19 +88,38 @@ module "vm" {
   tags                   = var.tags
 }
 
-# # Create VM Extensions
-# module "vm_extensions" {
-#     source                  = "../../../modules/tf-az-vm-linux-extensions"
-#     template_file_path      = "../../../modules/tf-az-vm-linux-extensions"
-#     virtual_machine_names   = [module.vm.vm_name]
-#     virtual_machine_ids     = [module.vm.vm_id]
+module "ansible_vm_nic" {
+  source                        = "github.com/devops-toolschain/azure-terraform-modules.git//az-vm-nic"
+  virtual_machine_name          = local.vm_name
+  resource_group_name           = module.pub_rg.name
+  location                      = var.location
+  network_security_group_id     = module.pub_nsg.id
+  subnet_id                     = module.pub_vnet_subnet.id
+  private_ip_address            = null
+  private_ip_address_allocation = "Dynamic"
+  public_ip_address_id          = null
+  enable_accelerated_networking = "false"
+  tags                          = var.tags
+}
 
-#     symantec_agent_config   = local.symantec_agent_config
+# # Create Virtual Machine
+module "asible_vm" {
+  source = "github.com/devops-toolschain/azure-terraform-modules.git//az-vm-linux"
 
-#     disk_encryption_config  = local.disk_encryption_config
-#     diagnostic_agent_config =  local.diagnostic_agent_config
-#     dependency_agent_config = local.dependency_agent_config
-#     rapid7_agent_config     = local.rapid7_agent_config
+  # Common configuration
+  vm_name             = local.vm_name
+  resource_group_name = module.pub_rg.name
+  location            = var.location
 
-#     log_analytics_workspace = local.log_analytics_workspace
-# }
+  admin_username = "azureadmin"
+  ssh_public_key = file("ssh_keys/id_pub_project.pub")
+
+  # NIC configurtion
+  network_interface_ids = [module.ansible_vm_nic.id]
+
+  # VM configuration
+  vm_size                = local.vm_size
+  os_disk                = var.os_disk
+  source_image_reference = var.source_image_reference
+  tags                   = var.tags
+}
