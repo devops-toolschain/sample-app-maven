@@ -23,6 +23,8 @@ podTemplate(containers: [
                 dir('java-app') {
                     sh 'mvn -version'
                     sh 'mvn clean package'
+
+                    sh 'ls -al target'
                 }
             }
 
