@@ -21,7 +21,7 @@ podTemplate(containers: [
 
             stage('Build') {
                 dir('java-app') {
-                    mvn clean package
+                    sh 'mvn clean package'
                 }
             }
 
