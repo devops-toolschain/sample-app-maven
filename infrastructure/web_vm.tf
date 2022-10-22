@@ -6,7 +6,7 @@ module "web_nsg" {
   tags                 = var.tags
 }
 
-module "vm_nsg_rules" {
+module "web_nsg_rules" {
   source                      = "github.com/devops-toolschain/azure-terraform-modules.git//az-nsg-security-rule"
   resource_group_name         = module.pub_rg.name
   network_security_group_name = module.web_nsg.name
@@ -28,7 +28,7 @@ module "web_vm_nic" {
   virtual_machine_name          = "spring-app-vm"
   resource_group_name           = module.pub_rg.name
   location                      = var.location
-  network_security_group_id     = module.pub_nsg.id
+  network_security_group_id     = module.web_nsg.id
   subnet_id                     = module.pub_vnet_subnet.id
   private_ip_address            = null
   private_ip_address_allocation = "Dynamic"
