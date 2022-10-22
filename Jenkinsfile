@@ -12,7 +12,7 @@ podTemplate(containers: [
                 checkout([$class: 'GitSCM',
                     branches: [[name: '*/master']],
                     userRemoteConfigs: [[credentialsId: 'jenkins-credentials',
-                    url: 'https://github.com/devops-toolschain/spring-boot-application-gradle.git']]])
+                    url: 'https://github.com/devops-toolschain/sample-app-maven.git']]])
             }
             
             stage('Print Variables') {
