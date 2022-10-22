@@ -33,7 +33,7 @@ module "asible_vm" {
 
   # Common configuration
   vm_name             = local.ansible_vm_name
-  computer_name       = local.ansible_vm_name
+  computer_name       = "ansiblevm"
   resource_group_name = module.pub_rg.name
   location            = var.location
 

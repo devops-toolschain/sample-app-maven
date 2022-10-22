@@ -43,7 +43,7 @@ module "web_vm" {
 
   # Common configuration
   vm_name             = local.vm_name
-  computer_name       = local.vm_name
+  computer_name       = "webvm"
   resource_group_name = module.pub_rg.name
   location            = var.location
 

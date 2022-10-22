@@ -1,6 +1,6 @@
 locals {
 
-  vm_name = "spring-app-vm"
+  vm_name = "web-vm"
   ansible_vm_name = "ansible_vm"
   vm_size = "Standard_D2s_v3"
 
