@@ -1,9 +1,10 @@
 locals {
 
   vm_name = "spring-app-vm"
+  ansible_vm_name = "ansible_vm"
   vm_size = "Standard_D2s_v3"
 
-  nsg_rules_range = {
+  web_nsg_rules = {
     allow_ssh = {
       name                       = "allow-ssh"
       priority                   = "100"
@@ -41,6 +42,21 @@ locals {
       destination_address_prefix = "*"
       destination_port_range     = "443"
       description                = "Allow port 443"
+    }
+  }
+
+  ansible_nsg_rules = {
+    allow_ssh = {
+      name                       = "allow-ssh"
+      priority                   = "100"
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_address_prefix      = "*"
+      source_port_range          = "*"
+      destination_address_prefix = "*"
+      destination_port_range     = "22"
+      description                = "Allow port 22"
     }
   }
 }
