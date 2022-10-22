@@ -29,8 +29,10 @@ podTemplate(containers: [
             }
 
             stage('Code Quality') {
-                withSonarQubeEnv(credentialsId: 'jenkins-sonar-token', installationName: 'sonarcloud') {
-                   sh 'mvn verify sonar:sonar -Dsonar.projectKey=sample-app-maven'
+                dir('java-app') {
+                    withSonarQubeEnv(credentialsId: 'jenkins-sonar-token', installationName: 'sonarcloud') {
+                    sh 'mvn verify sonar:sonar -Dsonar.projectKey=sample-app-maven'
+                    }
                 }
             }
 
