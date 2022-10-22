@@ -21,20 +21,14 @@ podTemplate(containers: [
 
             stage('Build') {
                 dir('java-app') {
-                    mvn 
+                    mvn clean package
                 }
-
-                sh 'cd $WORKSPACE'
-                // sh './gradlew build --no-daemon --init-script init.gradle'
-                // sh 'ls -al build/libs'
             }
 
             stage('Code Quality') {
-                sh 'echo Sonar scan runs here'
-                
-                //withSonarQubeEnv(credentialsId: 'jenkins-sonar-token', installationName: 'sonarcloud') {
-                //    sh './gradlew sonarqube --no-daemon --init-script init.gradle'
-                //}
+                withSonarQubeEnv(credentialsId: 'jenkins-sonar-token', installationName: 'sonarcloud') {
+                   sh 'mvn verify sonar:sonar -Dsonar.projectKey=sample-app-maven'
+                }
             }
 
             stage('Build Infra') {
@@ -58,7 +52,6 @@ podTemplate(containers: [
                         sh 'terraform plan -no-color -out=tfplan -var env=prod -var-file=prod.tfvars'
 
                         sh 'terraform apply -no-color -auto-approve tfplan'
-                        
                     }
                 }
             }
