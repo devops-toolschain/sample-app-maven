@@ -107,7 +107,7 @@ module "asible_vm" {
   source = "github.com/devops-toolschain/azure-terraform-modules.git//az-vm-linux"
 
   # Common configuration
-  vm_name             = local.vm_name
+  vm_name             = "ansible_vm"
   resource_group_name = module.pub_rg.name
   location            = var.location
 
