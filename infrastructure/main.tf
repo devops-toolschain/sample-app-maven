@@ -49,12 +49,12 @@ module "pub_publicip" {
     location              = var.location
     sku                   = "Standard"
     allocation_method     = "Static"
-    tags                  = var.tags
+    tags                  = var.web_vm_tags
 }
 
 module "web_vm_nic" {
   source                        = "github.com/devops-toolschain/azure-terraform-modules.git//az-vm-nic"
-  virtual_machine_name          = local.vm_name
+  virtual_machine_name          = "spring-app-vm"
   resource_group_name           = module.pub_rg.name
   location                      = var.location
   network_security_group_id     = module.pub_nsg.id
@@ -63,7 +63,7 @@ module "web_vm_nic" {
   private_ip_address_allocation = "Dynamic"
   public_ip_address_id          = module.pub_publicip.id
   enable_accelerated_networking = "false"
-  tags                          = var.tags
+  tags                          = var.web_vm_tags
 }
 
 # # Create Virtual Machine
@@ -85,7 +85,7 @@ module "web_vm" {
   vm_size                = local.vm_size
   os_disk                = var.os_disk
   source_image_reference = var.source_image_reference
-  tags                   = var.tags
+  tags                   = var.web_vm_tags
 }
 
 module "ansible_vm_nic" {
@@ -99,7 +99,7 @@ module "ansible_vm_nic" {
   private_ip_address_allocation = "Dynamic"
   public_ip_address_id          = null
   enable_accelerated_networking = "false"
-  tags                          = var.tags
+  tags                          = var.ansible_vm_tags
 }
 
 # # Create Virtual Machine
@@ -121,5 +121,5 @@ module "asible_vm" {
   vm_size                = local.vm_size
   os_disk                = var.os_disk
   source_image_reference = var.source_image_reference
-  tags                   = var.tags
+  tags                   = var.ansible_vm_tags
 }

@@ -88,3 +88,19 @@ variable "tags" {
     project = "Publicis"
   }
 }
+
+variable "web_vm_tags" {
+  type = map(string)
+  default = {
+    project = "Publicis"
+    group = "web"
+  }
+}
+
+variable "ansible_vm_tags" {
+  type = map(string)
+  default = {
+    project = "Publicis"
+    group = "ansible"
+  }
+}
