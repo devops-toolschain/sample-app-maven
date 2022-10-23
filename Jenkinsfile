@@ -28,6 +28,14 @@ podTemplate(containers: [
                 }
             }
 
+            stage('Integration Tests') {
+                sh 'echo Integration Tests here'
+            }
+
+            stage('Functional Tests') {
+                sh 'echo Functional Tests here'
+            }
+
             stage('Code Quality') {
                 dir('java-app') {
                     withSonarQubeEnv(credentialsId: 'jenkins-sonar-token', installationName: 'sonarcloud') {
