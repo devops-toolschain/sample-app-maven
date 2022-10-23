@@ -49,8 +49,8 @@ podTemplate(containers: [
                     sshagent(credentials: ['AZURE_VM_SSH_PRIVAT_KEY']) {
                         sh '''
                             [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
-                            ssh-keyscan -t rsa,dsa 20.77.96.60 >> ~/.ssh/known_hosts
-                            scp hello-world-1.war azureadmin@20.77.96.60:/etc/tomcat/apache-tomcat-9.0.68/webapps
+                            ssh-keyscan -t rsa,dsa $WEB_VM_IP >> ~/.ssh/known_hosts
+                            scp hello-world-1.war azureadmin@$WEB_VM_IP:/etc/tomcat/apache-tomcat-9.0.68/webapps
                         '''
                     }
                 }
