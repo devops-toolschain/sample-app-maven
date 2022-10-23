@@ -66,7 +66,7 @@ resource "azurerm_log_analytics_workspace" "pub_law" {
   location                  = var.location
   sku                       = "PerGB2018"
   retention_in_days         = 30
-  internet_ingestion_enabled= true
+  internet_ingestion_enabled= false
   internet_query_enabled    = false
 }
 
