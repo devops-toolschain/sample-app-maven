@@ -71,9 +71,9 @@ resource "azurerm_log_analytics_workspace" "pub_law" {
 }
 
 resource "azurerm_virtual_machine_extension" "web_vm_monitor" {
-  name = "DAExtension"
-  virtual_machine_id = module.web_vm.vm_id
-  publisher = "Microsoft.Azure.Monitoring.DependencyAgent"
+  name                       = "DAExtension"
+  virtual_machine_id         = module.web_vm.vm_id
+  publisher                  = "Microsoft.Azure.Monitoring.DependencyAgent"
   type                       = "DependencyAgentLinux"
   type_handler_version       = "9.5"
   auto_upgrade_minor_version = true
@@ -81,7 +81,7 @@ resource "azurerm_virtual_machine_extension" "web_vm_monitor" {
 
 resource "azurerm_virtual_machine_extension" "web_vm_monitor_oms" {
   name                 = "OmsAgentForLinux"
-  virtual_machine_id   = azurerm_virtual_machine.web_vm.vm_id
+  virtual_machine_id   = module.web_vm.vm_id
   publisher            = "Microsoft.EnterpriseCloud.Monitoring"
   type                 = "OmsAgentForLinux"
   type_handler_version = "1.12"
