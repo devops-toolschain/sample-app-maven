@@ -39,11 +39,11 @@ podTemplate(containers: [
             stage('Deploy') {
                 dir('java-app/target') {
                     sshagent(credentials: ['AZURE_VM_SSH_PRIVAT_KEY']) {
-                        sh '
+                        sh '''
                             [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
                             ssh-keyscan -t rsa,dsa 20.77.96.60 >> ~/.ssh/known_hosts
                             scp hello-world-1.war
-                        '
+                        '''
                     }
 
                     // withCredentials([
