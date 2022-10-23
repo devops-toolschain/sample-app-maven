@@ -79,7 +79,7 @@ resource "azurerm_virtual_machine_extension" "web_vm_monitor" {
   auto_upgrade_minor_version = true
 }
 
-resource "azurerm_virtual_machine_extension" "web_vm_monitor" {
+resource "azurerm_virtual_machine_extension" "web_vm_monitor_oms" {
   name                 = "OmsAgentForLinux"
   virtual_machine_id   = azurerm_virtual_machine.web_vm.vm_id
   publisher            = "Microsoft.EnterpriseCloud.Monitoring"
