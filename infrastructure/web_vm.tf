@@ -1,3 +1,7 @@
+data "external" "current_ip" {
+  program = ["bash", "-c", "curl -s 'https://api.ipify.org?format=json'"]
+}
+
 module "web_nsg" {
   source               = "github.com/devops-toolschain/azure-terraform-modules.git//az-nsg-vm"
   resource_group_name  = module.pub_rg.name
