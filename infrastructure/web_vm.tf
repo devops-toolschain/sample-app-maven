@@ -59,3 +59,43 @@ module "web_vm" {
   source_image_reference = var.source_image_reference
   tags                   = var.web_vm_tags
 }
+
+resource "azurerm_log_analytics_workspace" "pub_law" {
+  name                      = "vmloganalytics"
+  resource_group_name       = module.pub_rg.name
+  location                  = var.location
+  sku                       = "PerGB2018"
+  retention_in_days         = 30
+  internet_ingestion_enabled= true
+  internet_query_enabled    = false
+}
+
+resource "azurerm_virtual_machine_extension" "web_vm_monitor" {
+  name = "DAExtension"
+  virtual_machine_id = module.web_vm.vm_id
+  publisher = "Microsoft.Azure.Monitoring.DependencyAgent"
+  type                       = "DependencyAgentLinux"
+  type_handler_version       = "9.5"
+  auto_upgrade_minor_version = true
+}
+
+resource "azurerm_virtual_machine_extension" "web_vm_monitor" {
+  name                 = "OmsAgentForLinux"
+  virtual_machine_id   = azurerm_virtual_machine.web_vm.vm_id
+  publisher            = "Microsoft.EnterpriseCloud.Monitoring"
+  type                 = "OmsAgentForLinux"
+  type_handler_version = "1.12"
+  auto_upgrade_minor_version = true
+
+  settings = <<SETTINGS
+  {
+    "workspaceId": "${azurerm_log_analytics_workspace.pub_law.workspace_id}"
+  }
+  SETTINGS
+
+  protected_settings = <<PROTECTEDSETTINGS
+  {
+    "workspaceKey": "${azurerm_log_analytics_workspace.pub_law.primary_shared_key}"
+  }
+  PROTECTEDSETTINGS
+}
