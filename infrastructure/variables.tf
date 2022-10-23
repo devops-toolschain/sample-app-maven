@@ -43,6 +43,19 @@ locals {
       destination_port_range     = "443"
       description                = "Allow port 443"
     }
+
+    allow_8080 = {
+      name                       = "allow-8080"
+      priority                   = "130"
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_address_prefix      = "*"
+      source_port_range          = "*"
+      destination_address_prefix = "*"
+      destination_port_range     = "8080"
+      description                = "Allow port 8080"
+    }
   }
 
   ansible_nsg_rules = {
