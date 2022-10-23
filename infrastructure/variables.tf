@@ -58,20 +58,20 @@ locals {
     }
   }
 
-  ansible_nsg_rules = {
-    allow_ssh = {
-      name                       = "allow-ssh"
-      priority                   = "100"
-      direction                  = "Inbound"
-      access                     = "Allow"
-      protocol                   = "Tcp"
-      source_address_prefix      = "*"
-      source_port_range          = "*"
-      destination_address_prefix = "*"
-      destination_port_range     = "22"
-      description                = "Allow port 22"
-    }
-  }
+  # ansible_nsg_rules = {
+  #   allow_ssh = {
+  #     name                       = "allow-ssh"
+  #     priority                   = "100"
+  #     direction                  = "Inbound"
+  #     access                     = "Allow"
+  #     protocol                   = "Tcp"
+  #     source_address_prefix      = "*"
+  #     source_port_range          = "*"
+  #     destination_address_prefix = "*"
+  #     destination_port_range     = "22"
+  #     description                = "Allow port 22"
+  #   }
+  # }
 }
 
 variable "os_disk" {
@@ -126,10 +126,10 @@ variable "web_vm_tags" {
   }
 }
 
-variable "ansible_vm_tags" {
-  type = map(string)
-  default = {
-    project = "Publicis"
-    group = "ansible"
-  }
-}
+# variable "ansible_vm_tags" {
+#   type = map(string)
+#   default = {
+#     project = "Publicis"
+#     group = "ansible"
+#   }
+# }
