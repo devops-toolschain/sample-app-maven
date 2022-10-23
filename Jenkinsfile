@@ -15,9 +15,9 @@ podTemplate(containers: [
                     url: 'https://github.com/devops-toolschain/sample-app-maven.git']]])
             }
             
-            stage('Print Variables') {
-                sh 'echo Workspace is $WORKSPACE'
-            }
+            // stage('Print Variables') {
+            //     sh 'echo Workspace is $WORKSPACE'
+            // }
 
             stage('Build') {
                 dir('java-app') {
@@ -28,13 +28,13 @@ podTemplate(containers: [
                 }
             }
 
-            // stage('Code Quality') {
-            //     dir('java-app') {
-            //         withSonarQubeEnv(credentialsId: 'jenkins-sonar-token', installationName: 'sonarcloud') {
-            //         sh 'mvn verify sonar:sonar -Dsonar.projectKey=sample-app-maven'
-            //         }
-            //     }
-            // }
+            stage('Code Quality') {
+                dir('java-app') {
+                    withSonarQubeEnv(credentialsId: 'jenkins-sonar-token', installationName: 'sonarcloud') {
+                    sh 'mvn verify sonar:sonar -Dsonar.projectKey=sample-app-maven'
+                    }
+                }
+            }
 
             stage('Deploy') {
                 dir('java-app/target') {
@@ -45,21 +45,6 @@ podTemplate(containers: [
                             scp hello-world-1.war azureadmin@20.77.96.60:/etc/tomcat/apache-tomcat-9.0.68/webapps
                         '''
                     }
-
-                    // withCredentials([
-                    //     string(credentialsId: 'AZURE_VM_SSH_PRIVAT_KEY', variable: 'AZURE_VM_SSH_PRIVAT_KEY')
-                    // ]) {
-                    //     sshPublisher(
-                    //         continueOnError: false, 
-                    //         failOnError: true,
-                    //         publishers: [
-                    //             sshPublisherDesc(
-                    //             configName: "$AZURE_VM_SSH_PRIVAT_KEY",
-                    //             transfers: [sshTransfer(sourceFiles: 'hello-world-1.war')],
-                    //             verbose: true
-                    //         )]
-                    //     )
-                    // }
                 }
             }
         }
