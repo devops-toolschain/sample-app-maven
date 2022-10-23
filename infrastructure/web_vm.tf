@@ -1,5 +1,5 @@
-data "external" "current_ip" {
-  program = ["bash", "-c", "curl -s 'https://api.ipify.org?format=json'"]
+data "http" "myip" {
+  url = "http://ipv4.icanhazip.com"
 }
 
 module "web_nsg" {

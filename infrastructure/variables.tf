@@ -11,7 +11,7 @@ locals {
       direction                  = "Inbound"
       access                     = "Allow"
       protocol                   = "Tcp"
-      source_address_prefix      = "${data.external.current_ip.result.ip}/32"
+      source_address_prefix      = "${chomp(data.http.myip.body)}/32"
       source_port_range          = "*"
       destination_address_prefix = "*"
       destination_port_range     = "22"
