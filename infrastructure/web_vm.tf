@@ -22,7 +22,7 @@ module "pub_publicip" {
     publicip_label        = local.vm_name
     resource_group_name   = module.pub_rg.name
     location              = var.location
-    sku                   = "Standard"
+    sku                   = "Basic"
     allocation_method     = "Static"
     tags                  = var.web_vm_tags
 }
